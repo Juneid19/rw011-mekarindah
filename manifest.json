@@ -1,0 +1,13 @@
+{
+  "name": "RW Mekarindah",
+  "short_name": "RW Mekar",
+  "description": "Portal Informasi RW Mekarindah",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d7a3a",
+  "theme_color": "#0d7a3a",
+  "icons": [
+    {"src": "https://ui-avatars.com/api/?name=RW+Mekar&background=0d7a3a&color=fff&size=192","sizes": "192x192","type": "image/png"},
+    {"src": "https://ui-avatars.com/api/?name=RW+Mekar&background=0d7a3a&color=fff&size=512","sizes": "512x512","type": "image/png"}
+  ]
+}
