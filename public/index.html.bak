@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>RW Mekarindah - Majalah Digital</title>
     
     <!-- PWA Meta Tags -->
@@ -762,6 +762,39 @@
         </div>
     </section>
 
+
+    <!-- ============================================================ -->
+    <!-- PERATURAN RW -->
+    <!-- ============================================================ -->
+    <section class="section" id="peraturan">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-gavel"></i> Peraturan RW-011</h2>
+                <p>Peraturan dan tata tertib Desa Mekarmuti</p>
+                <div class="section-divider"></div>
+            </div>
+            <div style="max-width: 900px; margin: 0 auto; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;">
+                <div style="padding: 25px 30px; border-bottom: 2px solid var(--primary-light);">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-book-open" style="font-size: 1.5rem; color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--primary); margin: 0; font-size: 1.1rem;">Peraturan RW-011 Desa Mekarmuti</h3>
+                            <p style="margin: 0; font-size: 0.8rem; color: var(--gray);">Flipbook Digital Interaktif</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: relative; width: 100%; height: 90vh; background: #f5f5f5;">
+                    <iframe src="/flipbook-offline.html" style="width: 100%; height: 100%; border: none;" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div style="padding: 20px 30px; background: var(--primary-light); text-align: center;">
+                    <p style="margin: 0; font-size:0.85rem; color: var(--gray);">Geser halaman atau perbesar untuk membaca peraturan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ===== KEGIATAN ===== -->
     <section class="section section-alt" id="kegiatan">
         <div class="container">
@@ -994,8 +1027,8 @@ function extractYouTubeId(url) {
             { id: 'ekonomi', nama: 'Seksi Ekonomi' },
             { id: 'kesehatan', nama: 'Seksi Kesehatan' },
             { id: 'sampah', nama: 'Seksi Sampah' },
-            { id: 'komunikasi', nama: 'Seksi Komunikasi' }
-    { id: 'dewan_warga', nama: 'Dewan Warga' }
+            { id: 'komunikasi', nama: 'Seksi Komunikasi' },
+            { id: 'dewan_warga', nama: 'Seksi Dewan Warga' },
         ];
 
         // ==========================================
@@ -1626,5 +1659,9 @@ db.collection("kas").onSnapshot(function(snapshot) {
     if(elSaldo) elSaldo.textContent = formatRupiah(totalMasuk - totalKeluar);
 });
 </script>
+<script src="/arsip.js"></script>
+<script src="/fix-drive.js"></script>
+<script src="/kegiatan-drive-v3.js"></script>
+
 </body>
 </html>

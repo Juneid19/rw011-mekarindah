@@ -901,7 +901,7 @@
                                     <div class="form-group"><label>Tanggal *</label><input type="date" id="kegiatan-tanggal" required></div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group"><label>Seksi / Koordinator</label><select id="kegiatan-seksi"><option value="">Pilih Seksi</option><option value="Seksi Keamanan">Seksi Keamanan</option><option value="Seksi Pertamanan">Seksi Pertamanan</option><option value="Seksi Hari Besar">Seksi Hari Besar</option><option value="Seksi Sosial Warga">Seksi Sosial Warga</option><option value="Seksi PKK">Seksi PKK</option><option value="Seksi Olahraga">Seksi Olahraga</option><option value="Seksi Hukum">Seksi Hukum</option><option value="Seksi Ekonomi">Seksi Ekonomi</option><option value="Seksi Kesehatan">Seksi Kesehatan</option><option value="Seksi Sampah">Seksi Sampah</option><option value="Seksi Komunikasi">Seksi Komunikasi</option><option value="Pengurus Inti">Pengurus Inti</option></select></div>
+                                    <div class="form-group"><label>Seksi / Koordinator</label><select id="kegiatan-seksi"><option value="">Pilih Seksi</option><option value="Seksi Keamanan">Seksi Keamanan</option><option value="Seksi Pertamanan">Seksi Pertamanan</option><option value="Seksi Hari Besar">Seksi Hari Besar</option><option value="Seksi Sosial Warga">Seksi Sosial Warga</option><option value="Seksi PKK">Seksi PKK</option><option value="Seksi Olahraga">Seksi Olahraga</option><option value="Seksi Hukum">Seksi Hukum</option><option value="Seksi Ekonomi">Seksi Ekonomi</option><option value="Seksi Kesehatan">Seksi Kesehatan</option><option value="Seksi Sampah">Seksi Sampah</option><option value="Seksi Komunikasi">Seksi Komunikasi</option><option value="Seksi Dewan Warga">Seksi Dewan Warga</option><option value="Pengurus Inti">Pengurus Inti</option></select></div>
  <select id="kegiatan-tipe" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin-bottom:10px;">
     <option value="foto">Gambar / Foto</option>
     <option value="youtube">YouTube</option>
@@ -1138,8 +1138,8 @@
             { id: 'ekonomi', nama: 'Seksi Ekonomi' },
             { id: 'kesehatan', nama: 'Seksi Kesehatan' },
             { id: 'sampah', nama: 'Seksi Sampah' },
-            { id: 'komunikasi', nama: 'Seksi Komunikasi' }
-    { id: 'dewan_warga', nama: 'Dewan Warga' }
+            { id: 'komunikasi', nama: 'Seksi Komunikasi' },
+            { id: 'dewan_warga', nama: 'Seksi Dewan Warga' },
         ];
 
     // RENDER STRUKTUR FIELDS (RT + FOTO + KK)

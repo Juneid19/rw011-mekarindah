@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Kegiatan RW</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h2 { text-align: center; margin-bottom: 20px; color: #333; }
+        .card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        .btn-save { background: #0d7a3a; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .btn-save:hover { background: #095c2b; }
+        .btn-action { border: none; padding: 8px 15px; border-radius: 5px; font-size: 12px; cursor: pointer; margin-top: 10px; margin-right: 5px; color: white; }
+        .btn-edit { background: #F57C00; }
+        .btn-delete { background: #d32f2f; }
+        .item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .item:last-child { border-bottom: none; }
+        .badge { background: #e8f5e9; color: #0d7a3a; padding: 3px 8px; border-radius: 10px; font-size: 12px; margin-left: 5px; }
+        .info { margin-top: 5px; font-size: 12px; color: #666; word-break: break-all; }
+        .back-link { display: block; text-align: center; margin-bottom: 20px; color: #0d7a3a; text-decoration: none; font-weight: bold; }
+        small { color: red; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/panel.html" class="back-link">← Kembali ke Panel</a>
+        <h2>Tambah Kegiatan Baru</h2>
+        <div class="card">
+            <div class="form-group">
+                <label>Tanggal Kegiatan</label>
+                <input type="date" id="tanggal" required>
+            </div>
+            <div class="form-group">
+                <label>Tipe Konten</label>
+                <select id="tipe" required>
+                    <option value="gambar">Gambar (imgBB / Drive Foto)</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                </select>
+                <small>* Untuk Video Drive, pilih "Gambar" lalu paste link yang ada /preview</small>
+            </div>
+            <div class="form-group">
+                <label>URL Link</label>
+                <input type="text" id="url" placeholder="https://..." required>
+            </div>
+            <div class="form-group">
+                <label>Keterangan / Judul Kegiatan</label>
+                <textarea id="keterangan" rows="3" required placeholder="Tulis judul atau deskripsi kegiatan..."></textarea>
+            </div>
+            <button class="btn-save" onclick="simpan()">SIMPAN KEGIATAN</button>
+        </div>
+
+        <h2>Daftar Kegiatan</h2>
+        <div class="card" id="daftar-kegiatan">
+            <p style="text-align:center;color:#999;">Memuat data...</p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+        var firebaseConfig = { apiKey: "AIzaSyB3soQUtEAn0J09uBWQT6JeGhZGnGmCUZc", authDomain: "rw011-mekarindah.firebaseapp.com", projectId: "rw011-mekarindah", storageBucket: "rw011-mekarindah.firebasestorage.app", messagingSenderId: "1080174436962", appId: "1:1080174436962:web:6fdd796771013291b4273b" };
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        function simpan() {
+            var tgl = document.getElementById('tanggal').value;
+            var tipe = document.getElementById('tipe').value;
+            var url = document.getElementById('url').value;
+            var ket = document.getElementById('keterangan').value;
+            if(!tgl || !url || !ket) return alert("Semua field wajib diisi!");
+            db.collection("kegiatan").add({ tanggal: tgl, tipe: tipe, url: url, keterangan: ket }).then(function() {
+                alert("Berhasil disimpan!"); document.getElementById('tanggal').value = ''; document.getElementById('url').value = ''; document.getElementById('keterangan').value = '';
+            }).catch(function(err) { alert("Error: " + err.message); });
+        }
+
+        function editItem(id, tglLama, tipeLama, urlLama, ketLama) {
+            var tglBaru = prompt("Tanggal (YYYY-MM-DD):", tglLama);
+            if (tglBaru === null) return;
+            var tipeBaru = prompt("Tipe (gambar/youtube/instagram/tiktok):", tipeLama);
+            if (tipeBaru === null) return;
+            var urlBaru = prompt("URL Link:", urlLama);
+            if (urlBaru === null) return;
+            var ketBaru = prompt("Keterangan:", ketLama);
+            if (ketBaru === null) return;
+            db.collection("kegiatan").doc(id).update({ tanggal: tglBaru, tipe: tipeBaru, url: urlBaru, keterangan: ketBaru }).then(function() { alert("Berhasil diupdate!"); }).catch(function(err) { alert("Error: " + err.message); });
+        }
+
+        db.collection("kegiatan").orderBy("tanggal", "desc").onSnapshot(function(snapshot) {
+            var container = document.getElementById('daftar-kegiatan');
+            if(snapshot.empty) { container.innerHTML = '<p style="text-align:center;color:#999;">Belum ada kegiatan.</p>'; return; }
+            var html = '';
+            snapshot.forEach(function(doc) {
+                var d = doc.data();
+                html += '<div class="item">';
+                html += '<strong>' + d.keterangan + '</strong> <span class="badge">' + d.tipe + '</span>';
+                html += '<div class="info">Tgl: ' + d.tanggal + '<br>' + d.url + '</div>';
+                html += '<button class="btn-action btn-edit" onclick="editItem(\'' + doc.id + '\', \'' + d.tanggal + '\', \'' + d.tipe + '\', \'' + d.url + '\', \'' + d.keterangan + '\')">EDIT</button>';
+                html += '<button class="btn-action btn-delete" onclick="hapus(\'' + doc.id + '\')">HAPUS</button>';
+                html += '</div>';
+            });
+            container.innerHTML = html;
+        });
+
+        function hapus(id) { if(confirm("Yakin hapus kegiatan ini?")) { db.collection("kegiatan").doc(id).delete(); } }
+    </script>
+</body>
+</html>
