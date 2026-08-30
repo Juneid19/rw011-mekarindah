@@ -1494,7 +1494,19 @@ function extractYouTubeId(url) {
             if (slideInterval) clearInterval(slideInterval);
             slidePaused = false;
             if (galeriData.length <= 1) return;
-            slideInterval = setInterval(() => { if (!slidePaused) { currentSlide = (currentSlide + 1) % galeriData.length; updateSlide(); } }, 5000);
+            slideInterval = setInterval(function() {
+                if (!slidePaused) {
+                    var slides = document.querySelectorAll('.galeri-slide');
+                    var cur = slides[currentSlide];
+                    if (cur) {
+                        if (cur.querySelector('iframe')) return;
+                        var vid = cur.querySelector('video');
+                        if (vid && !vid.paused && !vid.ended) return;
+                    }
+                    currentSlide = (currentSlide + 1) % galeriData.length;
+                    updateSlide();
+                }
+            }, 5000);
         }
 
         function pauseSlideshow() { slidePaused = true; if (slideInterval) { clearInterval(slideInterval); slideInterval = null; } }
@@ -1522,16 +1534,44 @@ function extractYouTubeId(url) {
             }
             track.innerHTML = galeriData.map((g) => {
                 const tipe = g.tipe || 'foto', keterangan = g.keterangan || '', url = g.url || '';
-                if (tipe === 'youtube') {
-                    const vid = extractYouTubeId(url);
-                    return `<div class="galeri-slide" data-keterangan="${keterangan}"><div class="youtube-thumbnail" onclick="playYouTube(this, '${vid}')"><img src="https://img.youtube.com/vi/${vid}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${vid}/hqdefault.jpg'" alt="Video"><div class="youtube-play-btn"><i class="fas fa-play"></i></div></div>${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
-                } else if (tipe === 'instagram') {
-                    return `<div class="galeri-slide"><a href="${url}" target="_blank" class="social-card instagram"><i class="fab fa-instagram"></i><span class="social-card-text">Lihat di Instagram</span>${keterangan ? `<span class="social-card-keterangan">${keterangan}</span>` : ''}<span class="social-card-action">Buka Instagram</span></a></div>`;
-                } else if (tipe === 'tiktok') {
-                    return `<div class="galeri-slide"><a href="${url}" target="_blank" class="social-card tiktok"><i class="fab fa-tiktok"></i><span class="social-card-text">Lihat di TikTok</span>${keterangan ? `<span class="social-card-keterangan">${keterangan}</span>` : ''}<span class="social-card-action">Buka TikTok</span></a></div>`;
-                } else {
-                    return `<div class="galeri-slide"><img src="${url}" alt="${keterangan}">${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
+                let t = tipe;
+                if (t === 'foto') {
+                    if (url.includes('youtube.com') || url.includes('youtu.be')) t = 'youtube';
+                    else if (url.includes('instagram.com')) t = 'instagram';
+                    else if (url.includes('tiktok.com')) t = 'tiktok';
+                    else if (url.includes('drive.google.com') && url.includes('/preview')) t = 'video_drive';
+                    else if (url.includes('archive.org/details/')) t = 'archive';
+                    else if (url.match(/\.(mp4|webm|ogg)(\?|$)/i) || url.includes('archive.org/download/')) t = 'video';
                 }
+                if (t === 'youtube') {
+                    const vid = extractYouTubeId(url);
+                    if (!vid) t = 'foto';
+                    else return `<div class="galeri-slide" data-keterangan="${keterangan}"><div class="youtube-thumbnail" onclick="playYouTube(this, '${vid}')"><img src="https://img.youtube.com/vi/${vid}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${vid}/hqdefault.jpg'" alt="Video"><div class="youtube-play-btn"><i class="fas fa-play"></i></div></div>${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
+                }
+                if (t === 'instagram') {
+                    return `<div class="galeri-slide"><a href="${url}" target="_blank" class="social-card instagram"><i class="fab fa-instagram"></i><span class="social-card-text">Lihat di Instagram</span>${keterangan ? `<span class="social-card-keterangan">${keterangan}</span>` : ''}<span class="social-card-action">Buka Instagram</span></a></div>`;
+                }
+                if (t === 'tiktok') {
+                    return `<div class="galeri-slide"><a href="${url}" target="_blank" class="social-card tiktok"><i class="fab fa-tiktok"></i><span class="social-card-text">Lihat di TikTok</span>${keterangan ? `<span class="social-card-keterangan">${keterangan}</span>` : ''}<span class="social-card-action">Buka TikTok</span></a></div>`;
+                }
+                if (t === 'video') {
+                    return `<div class="galeri-slide" data-keterangan="${keterangan}"><video controls playsinline preload="metadata" style="width:100%;height:100%;position:absolute;top:0;left:0;object-fit:contain;background:#000;"><source src="${url}" type="video/mp4">Browser tidak mendukung video.</video>${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
+                }
+                if (t === 'video_drive') {
+                    var dp = url.split('/d/');
+                    if (dp.length > 1) {
+                        var did = dp[1].split('/')[0];
+                        return `<div class="galeri-slide" data-keterangan="${keterangan}"><a href="https://drive.google.com/file/d/${did}/preview" target="_blank" style="display:block;width:100%;height:100%;position:absolute;top:0;left:0;"><img src="https://lh3.googleusercontent.com/d/${did}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='https://placehold.co/600x400/000/fff?text=Video'"><div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);"><div style="width:60px;height:42px;background:rgba(0,0,0,0.8);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;">&#9654;</div></div></a>${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
+                    }
+                }
+                if (t === 'archive') {
+                    var ap = url.split('details/');
+                    if (ap.length > 1) {
+                        var aid = ap[1].split('/')[0].split('?')[0];
+                        return `<div class="galeri-slide" data-keterangan="${keterangan}"><iframe src="https://archive.org/embed/${aid}" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;" allowfullscreen></iframe>${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
+                    }
+                }
+                return `<div class="galeri-slide"><img src="${url}" alt="${keterangan}">${keterangan ? `<div class="galeri-caption">${keterangan}</div>` : ''}</div>`;
             }).join('');
             dots.innerHTML = galeriData.map((_, i) => `<div class="galeri-dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>`).join('');
             currentSlide = 0; updateSlide(); startSlideshow();
@@ -1640,6 +1680,5 @@ db.collection("kas").onSnapshot(function(snapshot) {
 <script src="/kegiatan-drive-v3.js"></script>
 
     <script src="media-renderer.js"></script>
-    <script src="galeri-video-fix.js"></script>
 </body>
 </html>
