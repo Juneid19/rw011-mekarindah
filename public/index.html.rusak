@@ -1630,7 +1630,11 @@ document.getElementById('form-aduan').addEventListener('submit', function(e) {
     db.collection("aduan").add(aduanData).then(function() {
         alert('Aduan berhasil dikirim! Terima kasih.');
         document.getElementById('form-aduan').reset();
-        var tgMsg = '🆕 ADUAN BARU\n👤 Nama: ' + aduanData.nama + '\n🏘️ RT: ' + aduanData.rt + '\n📝 Pesan: ' + aduanData.pesan + '\n🕐 ' + new Date().toLocaleString('id-ID');
+        var tgMsg = '🆕 ADUAN BARU
+👤 Nama: ' + aduanData.nama + '
+🏘️ RT: ' + aduanData.rt + '
+📝 Pesan: ' + aduanData.pesan + '
+🕐 ' + new Date().toLocaleString('id-ID');
         fetch('https://api.telegram.org/bot8751379328:AAHexGtQQvcJV6s-1tMjLog4CVp6PRZWhqg/sendMessage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: '-1004394772144', text: tgMsg }) }).catch(function(){});
     }).catch(function(error) {
         alert('Gagal mengirim aduan: ' + error.message);
