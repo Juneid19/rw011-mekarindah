@@ -110,7 +110,7 @@ var d=document.createElement("div");
 d.id="qbar";
 d.style.cssText="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(90deg,rgba(13,122,58,0.97),rgba(8,90,40,0.97));color:#fff;z-index:99999;font-family:system-ui,sans-serif;box-shadow:0 -2px 12px rgba(0,0,0,0.25);overflow:hidden;";
 var wr=document.createElement("div");
-wr.style.cssText="display:inline-block;white-space:nowrap;animation:qrscroll 14s linear;padding:0 20px;line-height:42px;";
+wr.style.cssText="display:inline-block;white-space:nowrap;animation:qrscroll 16s linear;padding:0 20px;line-height:42px;";
 d.appendChild(wr);
 if(sessionStorage.getItem("qbar")==="off")d.style.display="none";
 document.body.appendChild(d);
@@ -119,7 +119,7 @@ function show(){
 wr.style.animation="none";
 wr.offsetHeight;
 wr.innerHTML='\u201C '+Q[i].t+' \u201D <b style="opacity:0.7;margin-left:8px;font-size:11px">\u2014 '+Q[i].s+"</b>";
-wr.style.animation="qrscroll 14s linear";
+wr.style.animation="qrscroll 16s linear";
 i=(i+1)%Q.length;
 }
 show();
