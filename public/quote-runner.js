@@ -24,7 +24,7 @@ var Q=[
 {t:"Hendaklah kamu menjadi orang yang pandai mencari kebenaran, dan jangan menjadi orang yang pandai mencari keburukan",s:"Ali bin Abi Thalib"},
 {t:"Cukuplah kematian sebagai nasihat bagi kita",s:"Utsman bin Affan"},
 {t:"Seseorang yang beriman itu bukan yang mencela dan mencela, tetapi yang memberi nasihat dan memaafkan",s:"Abu Bakar Ash-Shiddiq"},
-{t:"Kebahagiaan itu ada pada tiga hal: rumah yang layak, istri yang shalihah, dan kendaraan yang nyaman",s:"Abu Bakr Ash-Shiddiq"},
+{t:"Kebahagiaan itu ada pada tiga hal: rumah yang layak, istri yang shalihah, dan kendaraan yang nyaman",s:"Abu Bakar Ash-Shiddiq"},
 {t:"Sesungguhnya dalam tubuh ada segumpal daging, jika baik maka baiklah seluruh tubuh, itu adalah hati",s:"HR. Bukhari & Muslim"},
 {t:"Barangsiapa yang beriman kepada Allah dan hari akhir, hendaklah ia berkata yang baik atau diam",s:"HR. Bukhari & Muslim"},
 {t:"Kekuatan itu bukan dari fisik, kekuatan itu dari hati yang ikhlas",s:"Abdullah bin Mas'ud"},
@@ -108,33 +108,20 @@ st.textContent="@keyframes qrscroll{from{transform:translateX(100vw)}to{transfor
 document.head.appendChild(st);
 var d=document.createElement("div");
 d.id="qbar";
-d.style.cssText="position:fixed;bottom:0;left:0;right:0;height:42px;background:linear-gradient(90deg,rgba(13,122,58,0.97),rgba(8,90,40,0.97));color:#fff;z-index:99999;font-family:system-ui,sans-serif;box-shadow:0 -2px 12px rgba(0,0,0,0.25);overflow:hidden;display:flex;align-items:center;";
+d.style.cssText="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(90deg,rgba(13,122,58,0.97),rgba(8,90,40,0.97));color:#fff;z-index:99999;font-family:system-ui,sans-serif;box-shadow:0 -2px 12px rgba(0,0,0,0.25);overflow:hidden;";
 var wr=document.createElement("div");
-wr.style.cssText="display:inline-block;white-space:nowrap;animation:qrscroll 13s linear;padding:0 20px;";
+wr.style.cssText="display:inline-block;white-space:nowrap;animation:qrscroll 14s linear;padding:0 20px;line-height:42px;";
 d.appendChild(wr);
-var cl=document.createElement("div");
-cl.innerHTML="&#10005;";
-cl.style.cssText="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:0.5;font-size:13px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.15);flex-shrink:0;";
-cl.onmouseover=function(){this.style.opacity="1"};
-cl.onmouseout=function(){this.style.opacity="0.5"};
-cl.onclick=function(){d.style.display="none";ob.style.display="flex";sessionStorage.setItem("qbar","off")};
-d.appendChild(cl);
-var ob=document.createElement("div");
-ob.innerHTML="&#9993;";
-ob.style.cssText="position:fixed;bottom:10px;right:10px;width:36px;height:36px;background:rgba(13,122,58,0.85);color:#fff;border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:16px;z-index:99998;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:all 0.3s;";
-ob.onmouseover=function(){this.style.transform="scale(1.15)";this.style.background="rgba(13,122,58,1)"};
-ob.onmouseout=function(){this.style.transform="scale(1)";this.style.background="rgba(13,122,58,0.85)"};
-ob.onclick=function(){d.style.display="flex";ob.style.display="none";sessionStorage.removeItem("qbar");show()};
-document.body.appendChild(ob);
-if(sessionStorage.getItem("qbar")==="off"){d.style.display="none";ob.style.display="flex"}
+if(sessionStorage.getItem("qbar")==="off")d.style.display="none";
+document.body.appendChild(d);
 var i=Math.floor(Math.random()*Q.length);
 function show(){
 wr.style.animation="none";
 wr.offsetHeight;
 wr.innerHTML='\u201C '+Q[i].t+' \u201D <b style="opacity:0.7;margin-left:8px;font-size:11px">\u2014 '+Q[i].s+"</b>";
-wr.style.animation="qrscroll 13s linear";
+wr.style.animation="qrscroll 14s linear";
 i=(i+1)%Q.length;
 }
 show();
-setInterval(show,13000);
+setInterval(show,14000);
 })();
